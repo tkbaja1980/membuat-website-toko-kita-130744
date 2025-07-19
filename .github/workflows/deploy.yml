@@ -10,16 +10,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4 # Disarankan menggunakan versi terbaru
 
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4 # Disarankan menggunakan versi terbaru
         with:
           node-version: '20'
           cache: 'npm'
 
       - name: Install Dependencies
-        run: npm install
+        run: npm ci # 'ci' lebih cepat dan direkomendasikan untuk CI/CD
 
       - name: Build Application
         run: npm run build
@@ -34,5 +34,5 @@ jobs:
         env:
           GOOGLE_APPLICATION_CREDENTIALS: ${{ github.workspace }}/gcp-key.json
         run: |
-          echo "Deploying to Firebase Hosting..."
-          firebase deploy --only hosting:${{ github.event.repository.name }} --project "${{ secrets.FIREBASE_PROJECT_ID }}"
+          # Perintah deploy yang sudah diperbaiki, tanpa teks tambahan di akhir
+          firebase deploy --only hosting --project "${{ secrets.FIREBASE_PROJECT_ID }}"
