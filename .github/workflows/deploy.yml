@@ -31,3 +31,4 @@ jobs:
           firebaseServiceAccount: '${{ secrets.FIREBASE_TOKEN }}' # Ganti nama secret ini jika berbeda
           projectId: '${{ secrets.FIREBASE_PROJECT_ID }}'
           channelId: live # 'live' untuk production, atau bisa juga untuk preview
+          target: 'membuat-website-toko-kita-130744' # <-- TAMBAHKAN BARIS INI
