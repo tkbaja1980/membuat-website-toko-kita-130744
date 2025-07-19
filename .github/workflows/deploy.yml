@@ -1,4 +1,4 @@
-name: Deploy to Firebase Hosting
+name: Deploy to Firebase Hosting (Recommended)
 
 on:
   push:
@@ -10,29 +10,24 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4 # Disarankan menggunakan versi terbaru
+        uses: actions/checkout@v4
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4 # Disarankan menggunakan versi terbaru
+        uses: actions/setup-node@v4
         with:
           node-version: '20'
           cache: 'npm'
 
       - name: Install Dependencies
-        run: npm ci # 'ci' lebih cepat dan direkomendasikan untuk CI/CD
+        run: npm ci
 
       - name: Build Application
         run: npm run build
 
-      - name: Install Firebase CLI
-        run: npm install -g firebase-tools
-
-      - name: Write Service Account to file
-        run: echo "${{ secrets.GCP_SA_KEY }}" > ${{ github.workspace }}/gcp-key.json
-
       - name: Deploy to Firebase Hosting
-        env:
-          GOOGLE_APPLICATION_CREDENTIALS: ${{ github.workspace }}/gcp-key.json
-        run: |
-          # Perintah deploy yang sudah diperbaiki, tanpa teks tambahan di akhir
-          firebase deploy --only hosting --project "${{ secrets.FIREBASE_PROJECT_ID }}"
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: '${{ secrets.GITHUB_TOKEN }}'
+          firebaseServiceAccount: '${{ secrets.FIREBASE_TOKEN }}' # Ganti nama secret ini jika berbeda
+          projectId: '${{ secrets.FIREBASE_PROJECT_ID }}'
+          channelId: live # 'live' untuk production, atau bisa juga untuk preview
